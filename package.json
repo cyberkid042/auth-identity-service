@@ -4,9 +4,16 @@
   "description": "Lightweight authentication and authorization service with Node.js, Passport.js, JWT, RBAC, and SQLite.",
   "main": "index.js",
   "scripts": {
+    "build": "tsc",
+    "dev": "ts-node src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "cyberkid042",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^24.3.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2"
+  }
 }

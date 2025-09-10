@@ -2,6 +2,7 @@ import express from 'express';
 import { sequelize } from './models';
 import authRoutes from './routes/auth';
 import adminRoutes from './routes/admin';
+import userRoutes from './routes/users';
 
 // Entry point for Auth Identity Service
 const app = express();
@@ -11,6 +12,7 @@ app.use(express.json());
 
 app.use('/auth', authRoutes);
 app.use('/admin', adminRoutes);
+app.use('/users', userRoutes);
 
 app.get('/', (_req, res) => {
   res.send('Auth Identity Service is running!');

@@ -24,6 +24,9 @@ export class User extends Model<UserAttributes, UserCreationAttributes> implemen
 }
 
 export function initUserModel(sequelize: Sequelize): typeof User {
+  const bcrypt = require('bcrypt');
+  const SALT_ROUNDS = 10;
+
   User.init(
     {
       id: {
@@ -32,14 +35,22 @@ export function initUserModel(sequelize: Sequelize): typeof User {
         primaryKey: true,
       },
       username: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(32),
         allowNull: false,
         unique: true,
+        validate: {
+          len: [3, 32],
+          is: /^[a-zA-Z0-9_]+$/,
+        },
       },
       email: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(255),
         allowNull: false,
         unique: true,
+        validate: {
+          isEmail: true,
+          len: [5, 255],
+        },
       },
       password: {
         type: DataTypes.STRING,
@@ -64,6 +75,18 @@ export function initUserModel(sequelize: Sequelize): typeof User {
     {
       sequelize,
       tableName: 'users',
+      hooks: {
+        beforeCreate: async (user: User) => {
+          if (user.password) {
+            user.password = await bcrypt.hash(user.password, SALT_ROUNDS);
+          }
+        },
+        beforeUpdate: async (user: User) => {
+          if (user.changed('password')) {
+            user.password = await bcrypt.hash(user.password, SALT_ROUNDS);
+          }
+        },
+      },
     }
   );
   return User;

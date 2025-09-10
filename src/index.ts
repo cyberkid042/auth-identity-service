@@ -1,3 +1,8 @@
+import dotenv from 'dotenv';
+
+// Load environment variables from .env file
+dotenv.config();
+
 import express from 'express';
 import { sequelize } from './models';
 import authRoutes from './routes/auth';

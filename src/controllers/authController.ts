@@ -78,13 +78,13 @@ export const login = async (req: Request, res: Response) => {
     // Generate JWT tokens
     const accessToken = jwt.sign(
       { userId: user.id, email: user.email, role: user.role },
-      process.env.JWT_SECRET || 'something_super_secret',
+      process.env.JWT_SECRET || 'test_jwt_secret',
       { expiresIn: '15m' }
     );
 
     const refreshToken = jwt.sign(
       { userId: user.id },
-      process.env.JWT_REFRESH_SECRET || 'refresh_super_secret',
+      process.env.JWT_REFRESH_SECRET || 'test_refresh_secret',
       { expiresIn: '7d' }
     );
 
@@ -111,7 +111,7 @@ export const refresh = async (req: Request, res: Response) => {
     // Verify refresh token
     const decoded = jwt.verify(
       refreshToken,
-      process.env.JWT_REFRESH_SECRET || 'refresh_super_secret'
+      process.env.JWT_REFRESH_SECRET || 'test_refresh_secret'
     ) as any;
 
     // Find user
@@ -123,13 +123,13 @@ export const refresh = async (req: Request, res: Response) => {
     // Generate new tokens
     const newAccessToken = jwt.sign(
       { userId: user.id, email: user.email, role: user.role },
-      process.env.JWT_SECRET || 'something_super_secret',
+      process.env.JWT_SECRET || 'test_jwt_secret',
       { expiresIn: '15m' }
     );
 
     const newRefreshToken = jwt.sign(
       { userId: user.id },
-      process.env.JWT_REFRESH_SECRET || 'refresh_super_secret',
+      process.env.JWT_REFRESH_SECRET || 'test_refresh_secret',
       { expiresIn: '7d' }
     );
 

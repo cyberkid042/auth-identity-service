@@ -18,4 +18,7 @@ sequelize.sync().then(() => {
   app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
   });
+}).catch((err) => {
+  console.error('Failed to synchronize database:', err);
+  process.exit(1);
 });

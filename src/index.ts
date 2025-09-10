@@ -1,6 +1,7 @@
 import express from 'express';
 import { sequelize } from './models';
 import authRoutes from './routes/auth';
+import adminRoutes from './routes/admin';
 
 // Entry point for Auth Identity Service
 const app = express();
@@ -9,13 +10,9 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 
 app.use('/auth', authRoutes);
-
-const logCurrentRoute = (path: String) => {
-  console.log(`Request received for: ${path}`);
-};
+app.use('/admin', adminRoutes);
 
 app.get('/', (_req, res) => {
-  logCurrentRoute('/');
   res.send('Auth Identity Service is running!');
 });
 

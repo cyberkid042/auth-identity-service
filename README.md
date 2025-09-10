@@ -49,6 +49,7 @@ The API will be available by default at `http://localhost:3000`.
 
 ### Sample .env
 ```
+NODE_ENV=development
 PORT=3000
 JWT_SECRET=your_jwt_secret
 JWT_REFRESH_SECRET=your_jwt_refresh_secret

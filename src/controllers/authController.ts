@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import bcrypt from 'bcrypt';
 import zxcvbn from 'zxcvbn';
 import { User } from '../models';
 

@@ -22,6 +22,11 @@ export class User extends Model<UserAttributes, UserCreationAttributes> implemen
   public role!: string;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
+
+  // Instance method to check password
+  public async checkPassword(password: string): Promise<boolean> {
+    return bcrypt.compare(password, this.password);
+  }
 }
 
 export function initUserModel(sequelize: Sequelize): typeof User {

@@ -99,3 +99,47 @@ export const login = async (req: Request, res: Response) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+
+export const refresh = async (req: Request, res: Response) => {
+  try {
+    const { refreshToken } = req.body;
+
+    if (!refreshToken) {
+      return res.status(400).json({ error: 'Refresh token is required' });
+    }
+
+    // Verify refresh token
+    const decoded = jwt.verify(
+      refreshToken,
+      process.env.JWT_REFRESH_SECRET || 'refresh_super_secret'
+    ) as any;
+
+    // Find user
+    const user = await User.findByPk(decoded.userId);
+    if (!user) {
+      return res.status(401).json({ error: 'Invalid refresh token' });
+    }
+
+    // Generate new tokens
+    const newAccessToken = jwt.sign(
+      { userId: user.id, email: user.email, role: user.role },
+      process.env.JWT_SECRET || 'something_super_secret',
+      { expiresIn: '15m' }
+    );
+
+    const newRefreshToken = jwt.sign(
+      { userId: user.id },
+      process.env.JWT_REFRESH_SECRET || 'refresh_super_secret',
+      { expiresIn: '7d' }
+    );
+
+    res.json({
+      message: 'Tokens refreshed successfully',
+      accessToken: newAccessToken,
+      refreshToken: newRefreshToken,
+    });
+  } catch (error) {
+    console.error('Refresh error:', error);
+    res.status(401).json({ error: 'Invalid or expired refresh token' });
+  }
+};

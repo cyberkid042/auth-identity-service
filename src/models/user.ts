@@ -1,4 +1,5 @@
 import { DataTypes, Model, Optional, Sequelize } from 'sequelize';
+import bcrypt from 'bcrypt';
 
 export interface UserAttributes {
   id: number;
@@ -24,7 +25,6 @@ export class User extends Model<UserAttributes, UserCreationAttributes> implemen
 }
 
 export function initUserModel(sequelize: Sequelize): typeof User {
-  const bcrypt = require('bcrypt');
   const SALT_ROUNDS = 10;
 
   User.init(

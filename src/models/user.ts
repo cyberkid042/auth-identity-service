@@ -12,7 +12,7 @@ export interface UserAttributes {
 }
 
 export interface UserCreationAttributes
-  extends Optional<UserAttributes, 'id' | 'createdAt' | 'updatedAt'> {}
+  extends Optional<UserAttributes, 'id' | 'createdAt' | 'updatedAt' | 'role'> {}
 
 export class User extends Model<UserAttributes, UserCreationAttributes> implements UserAttributes {
   public id!: number;
